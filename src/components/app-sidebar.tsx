@@ -52,13 +52,12 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         <SidebarMenu>
           <SidebarMenuItem>
             <SidebarMenuButton asChild>
-              <Link href="/new">
+              <Link href="/logs/new">
                 <Plus />
                 <span>새 로그 작성하기</span>
               </Link>
             </SidebarMenuButton>
           </SidebarMenuItem>
-
           <SidebarMenuItem>
             <SidebarMenuButton asChild>
               <Link href="/my-logs">
@@ -67,7 +66,16 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
               </Link>
             </SidebarMenuButton>
           </SidebarMenuItem>
+          <SidebarMenuItem>
+            <SidebarMenuButton asChild>
+              <Link href="/settings">
+                <List />
+                <span>settings</span>
+              </Link>
+            </SidebarMenuButton>
+          </SidebarMenuItem>
         </SidebarMenu>
+        
       </SidebarContent>
       <SidebarFooter>
         <SidebarMenu>

@@ -25,7 +25,9 @@ export default function NewLogPage() {
     if (!query.trim()) return;
 
     const res = await fetch(
-      `${process.env.NEXT_PUBLIC_BOOK_API_URL}?target=title&query=${encodeURIComponent(query)}`,
+      `${
+        process.env.NEXT_PUBLIC_BOOK_API_URL
+      }?target=title&query=${encodeURIComponent(query)}`,
       {
         headers: {
           Authorization: `KakaoAK ${process.env.NEXT_PUBLIC_KAKAO_REST_API_KEY}`,
@@ -65,18 +67,24 @@ export default function NewLogPage() {
   };
 
   return (
-    <div className="p-6 max-w-6xl mx-auto">
+    <div className="">
       <h1 className="text-2xl font-bold mb-6">새 로그 작성</h1>
 
       {/* 2컬럼 레이아웃 */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         {/* 왼쪽: 책 검색 + 검색 결과 */}
-        <div className="md:col-span-1 border-r pr-4">
+        <div className="md:col-span-1 pr-4">
           <div className="flex gap-2 mb-4">
             <Input
               placeholder="책 제목으로 검색"
               value={query}
               onChange={(e) => setQuery(e.target.value)}
+              onKeyDown={(e) => {
+                if (e.key === "Enter") {
+                  e.preventDefault();
+                  searchBooks();
+                }
+              }}
             />
             <Button type="button" onClick={searchBooks}>
               검색
@@ -129,7 +137,9 @@ export default function NewLogPage() {
                   />
                 )}
                 <div>
-                  <h2 className="text-lg font-semibold">{selectedBook.title}</h2>
+                  <h2 className="text-lg font-semibold">
+                    {selectedBook.title}
+                  </h2>
                   <p className="text-sm text-gray-600">
                     {selectedBook.authors.join(", ")}
                   </p>
