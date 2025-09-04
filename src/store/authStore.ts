@@ -1,16 +1,20 @@
+import { authFetch } from "@/lib/authFetch";
 import { create } from "zustand";
+import { persist } from "zustand/middleware";
 
 interface User {
   id: number;
   email: string;
   name?: string;
 }
+
 interface AuthState {
   accessToken: string | null;
-  isLoggedIn: boolean;
   user: User | null;
+  isLoggedIn: boolean;
   login: (email: string, password: string) => Promise<void>;
   logout: () => Promise<void>;
+  refresh: () => Promise<void>;
 }
 
 export interface ErrorResponse {
@@ -23,43 +27,72 @@ interface ValidationError {
   message: string;
 }
 
-export const useAuthStore = create<AuthState>((set) => ({
-  accessToken: null,
-  isLoggedIn: false,
-  user: null,
+export const useAuthStore = create<AuthState>()(
+  persist(
+    (set, get) => ({
+      accessToken: null,
+      user: null,
+      isLoggedIn: false,
 
-  login: async (email, password) => {
-   const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/auth/login`, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    credentials: "include",
-    body: JSON.stringify({ email, password }),
-  });
+      login: async (email: string, password: string) => {
+        const res = await fetch(
+          `${process.env.NEXT_PUBLIC_API_URL}/auth/login`,
+          {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            credentials: "include",
+            body: JSON.stringify({ email, password }),
+          }
+        );
 
-  if (!response.ok) {
-    const errorData: ErrorResponse = await response.json();
-    throw errorData; 
-  }
+        if (!res.ok) throw await res.json();
 
-  const data = await response.json();
+        const data = await res.json();
 
-  set({
-    accessToken: data.accessToken,
-    isLoggedIn: true,
-    user: data.user ?? null,
-  });
-  },
+        set({
+          accessToken: data.accessToken,
+          user: data.user,
+          isLoggedIn: true,
+        });
+        // zustand 메모리에 잘 들어갔는지 확인
+        console.log(
+          "zustand accessToken:",
+          useAuthStore.getState().accessToken
+        );
+      },
 
-  logout: async () => {
-    try {
-      await fetch(`${process.env.NEXT_PUBLIC_API_URL}/auth/logout`, {
-        method: "POST",
-        credentials: "include", // refreshToken 쿠키 삭제
-      });
-    } catch (err) {
-      console.error("로그아웃 오류:", err);
-    } finally {
-      set({ accessToken: null, isLoggedIn: false, user: null });
+      refresh: async () => {
+        const res = await fetch(
+          `${process.env.NEXT_PUBLIC_API_URL}/auth/refresh`,
+          {
+            method: "POST",
+            credentials: "include",
+          }
+        );
+
+        if (!res.ok) throw new Error("토큰 갱신 실패");
+
+        const data = await res.json();
+        set({
+          accessToken: data.accessToken,
+          user: data.user,
+          isLoggedIn: true,
+        });
+      },
+      logout: async () => {
+        try {
+          await authFetch(`${process.env.NEXT_PUBLIC_API_URL}/auth/logout`, {
+            method: "POST",
+            credentials: "include",
+          });
+        } finally {
+          set({ accessToken: null, user: null, isLoggedIn: false });
+        }
+      },
+    }),
+    {
+      name: "auth",
+      partialize: (state) => ({ user: state.user }), // user만 저장
     }
-  },
-}));
+  )
+);

@@ -1,8 +1,9 @@
-import * as React from "react"
-import { Plus,List } from "lucide-react"
+"use client"
+import * as React from "react";
+import { Plus, List } from "lucide-react";
 // import { Calendars } from "@/components/calendars"
-import { DatePicker } from "@/components/date-picker"
-import { NavUser } from "@/components/nav-user"
+import { DatePicker } from "@/components/date-picker";
+import { NavUser } from "@/components/nav-user";
 import {
   Sidebar,
   SidebarContent,
@@ -13,37 +14,25 @@ import {
   SidebarMenuItem,
   SidebarRail,
   SidebarSeparator,
-} from "@/components/ui/sidebar"
-import Link from "next/link"
+} from "@/components/ui/sidebar";
+import Link from "next/link";
+import { useAuthStore } from "@/store/authStore";
 
-// This is sample data.
-const data = {
-  user: {
-    name: "shadcn",
-    email: "m@example.com",
-    avatar: "/avatars/shadcn.jpg",
-  },
-  calendars: [
-    {
-      name: "Add Log",
-      items: ["Personal", "Work", "Family"],
-    },
-    {
-      name: "My Logs",
-      items: ["Holidays", "Birthdays"],
-    },
-    {
-      name: "Other",
-      items: ["Travel", "Reminders", "Deadlines"],
-    },
-  ],
-}
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
+  const { user, isLoggedIn } = useAuthStore();
+  console.log(user);
+  
   return (
     <Sidebar {...props}>
       <SidebarHeader className="border-sidebar-border h-16 border-b">
-        <NavUser user={data.user} />
+        {isLoggedIn && user ? (
+
+          <NavUser user={user} />
+        ):(
+          <div>로그인 후 이용하세요</div>
+        )}
+        
       </SidebarHeader>
       <SidebarContent>
         <DatePicker />
@@ -75,7 +64,6 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
             </SidebarMenuButton>
           </SidebarMenuItem>
         </SidebarMenu>
-        
       </SidebarContent>
       <SidebarFooter>
         <SidebarMenu>
@@ -89,5 +77,5 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
       </SidebarFooter>
       <SidebarRail />
     </Sidebar>
-  )
+  );
 }

@@ -84,11 +84,12 @@
 //     </SidebarProvider>
 //   );
 // }
+import { authFetch } from "@/lib/authFetch";
 import Image from "next/image";
 import Link from "next/link";
 
 const getLogList = async () => {
-  const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/logs`, {
+  const res = await authFetch(`${process.env.NEXT_PUBLIC_API_URL}/logs`, {
     cache: "no-store",
   });
   if (!res.ok) throw new Error("로그 목록을 불러오지 못했습니다.");
@@ -106,6 +107,7 @@ export default async function Page() {
           bookAuthor: string;
           title: string;
           rating: number;
+          image: string;
         }) => (
           <Link
             key={log.id}
@@ -114,7 +116,7 @@ export default async function Page() {
           >
             <div className="flex flex-col gap-2 items-center">
               <Image
-                src={"/book-image.png"}
+                src={log.image || "/book-image.png"}
                 width={100}
                 height={40}
                 alt="book-image"

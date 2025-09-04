@@ -5,6 +5,8 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import Image from "next/image";
+import { toast } from "sonner";
+import { authFetch } from "@/lib/authFetch";
 
 interface Book {
   title: string;
@@ -20,6 +22,7 @@ export default function NewLogPage() {
 
   const [rating, setRating] = useState(0);
   const [content, setContent] = useState("");
+  const [isPublic, setIsPublic] = useState(true); // 🔹 공개 여부 상태
 
   const searchBooks = async () => {
     if (!query.trim()) return;
@@ -50,24 +53,25 @@ export default function NewLogPage() {
       publisher: selectedBook.publisher,
       rating,
       content,
+      isPublic,
     };
 
-    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/logs`, {
+    const res = await authFetch(`${process.env.NEXT_PUBLIC_API_URL}/logs`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(newLog),
     });
 
     if (res.ok) {
-      alert("새 로그가 등록되었습니다!");
-      window.location.href = "/logs";
+      toast("새 로그가 등록되었습니다!");
+      window.location.href = "/";
     } else {
-      alert("등록에 실패했습니다.");
+      toast("등록에 실패했습니다.");
     }
   };
 
   return (
-    <div className="">
+    <div>
       <h1 className="text-2xl font-bold mb-6">새 로그 작성</h1>
 
       {/* 2컬럼 레이아웃 */}
@@ -163,6 +167,25 @@ export default function NewLogPage() {
                 onChange={(e) => setContent(e.target.value)}
                 required
               />
+              {/* 🔹 공개 여부 선택 */}
+              <div className="flex items-center gap-4">
+                <label className="flex items-center gap-2">
+                  <input
+                    type="radio"
+                    checked={isPublic}
+                    onChange={() => setIsPublic(true)}
+                  />
+                  공개
+                </label>
+                <label className="flex items-center gap-2">
+                  <input
+                    type="radio"
+                    checked={!isPublic}
+                    onChange={() => setIsPublic(false)}
+                  />
+                  비공개
+                </label>
+              </div>
 
               <Button type="submit">등록하기</Button>
             </form>
