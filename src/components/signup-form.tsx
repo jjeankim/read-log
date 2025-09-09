@@ -15,6 +15,7 @@ import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { signup } from "@/lib/api/auth";
+import Link from "next/link";
 
 export interface SignupFormData {
   email: string;
@@ -55,7 +56,7 @@ export function SignupForm({
     <div className={cn("flex flex-col gap-6", className)} {...props}>
       <Card>
         <CardHeader>
-          <CardTitle>Login to your account</CardTitle>
+          <CardTitle>Signup to your account</CardTitle>
           <CardDescription>
             Enter your email below to signup to your account
           </CardDescription>
@@ -169,9 +170,9 @@ export function SignupForm({
             </div>
             <div className="mt-4 text-center text-sm">
               Don&apos;t have an account?{" "}
-              <a href="#" className="underline underline-offset-4">
-                Sign up
-              </a>
+              <Link href="/login" className="underline underline-offset-4">
+                Login
+              </Link>
             </div>
           </form>
         </CardContent>
