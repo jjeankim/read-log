@@ -76,7 +76,7 @@ export function SignupForm({
                 </div>
                 <Input id="password" name="password" type="password" required />
               </Field>
-              {error && <p className="text-red-600 text-center">{error}</p>}
+              {error && <p className="text-red-600">{error}</p>}
 
               <Field>
                 <Button type="submit" color="blue">

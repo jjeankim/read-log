@@ -1,3 +1,5 @@
+"use client"
+
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import {
@@ -14,11 +16,31 @@ import {
   FieldLabel,
 } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
+import { loginAction } from "@/app/login/actions";
+
 
 export function LoginForm({
   className,
   ...props
 }: React.ComponentProps<"div">) {
+
+  const router = useRouter()
+  const [error, setError] = useState("")
+
+  const handleForm = async (formData:FormData) => {
+    setError("")
+
+    try {
+      const result = await loginAction(formData)
+      console.log(result)
+      router.push("/")
+    } catch (error:unknown) {
+      if( error instanceof Error) setError(error.message)
+      else setError("알 수 없는 오류가 발생했습니다.")
+    }
+  }
   return (
     <div className={cn("flex flex-col gap-6", className)} {...props}>
       <Card>
@@ -29,12 +51,13 @@ export function LoginForm({
           </CardDescription> */}
         </CardHeader>
         <CardContent>
-          <form>
+          <form action={handleForm}>
             <FieldGroup>
               <Field>
                 <FieldLabel htmlFor="email">이메일</FieldLabel>
                 <Input
                   id="email"
+                  name="email"
                   type="email"
                   placeholder="m@example.com"
                   required
@@ -43,15 +66,11 @@ export function LoginForm({
               <Field>
                 <div className="flex items-center">
                   <FieldLabel htmlFor="password">비밀번호</FieldLabel>
-                  {/* <a
-                    href="#"
-                    className="ml-auto inline-block text-sm underline-offset-4 hover:underline"
-                  >
-                    Forgot your password?
-                  </a> */}
                 </div>
-                <Input id="password" type="password" required />
+                <Input id="password" name="password" type="password" required />
               </Field>
+
+              {error && <p className="text-red-600">{error}</p>}
               <Field>
                 <Button type="submit" color="blue">
                   로그인
