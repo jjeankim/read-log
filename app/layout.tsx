@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import Header from "@/components/Header";
+import Footer from "@/components/Footer";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -15,7 +16,7 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: "Read Log App",
-  description: "읽고, 남기는 나만의 독서기록서",
+  description: "읽고, 남기는 나만의 독서기록 서비스",
 };
 
 export default function RootLayout({
@@ -26,10 +27,11 @@ export default function RootLayout({
   return (
     <html lang="ko">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        className={`${geistSans.variable} ${geistMono.variable} antialiased flex min-h-screen flex-col bg-white`}
       >
         <Header />
-        <main className="container mx-auto px-4 py-6">{children}</main>
+        <main className="container mx-auto px-4 py-6 flex-1">{children}</main>
+        <Footer />
       </body>
     </html>
   );

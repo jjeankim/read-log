@@ -53,21 +53,27 @@ const Header = () => {
           <Link href={"/"} className="hover:text-primary">
             소설
           </Link>
+          <span className="text-gray-300">|</span>
           <Link href={"/"} className="hover:text-primary">
             에세이
           </Link>
+          <span className="text-gray-300">|</span>
           <Link href={"/"} className="hover:text-primary">
             자기 계발
           </Link>
+          <span className="text-gray-300">|</span>
           <Link href={"/"} className="hover:text-primary">
             IT/기술
           </Link>
+          <span className="text-gray-300">|</span>
           <Link href={"/"} className="hover:text-primary">
             취미
           </Link>
+          <span className="text-gray-300">|</span>
           <Link href={"/"} className="hover:text-primary">
             아동
           </Link>
+          <span className="text-gray-300">|</span>
           <Link href={"/"} className="hover:text-primary">
             경영 경제
           </Link>
