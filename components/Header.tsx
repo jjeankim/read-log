@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import SearchBar from "./SearchBar";
+import Image from "next/image";
 
 const Header = () => {
   return (
@@ -27,7 +28,7 @@ const Header = () => {
           {/* 왼쪽 영역 */}
           <div className="flex items-center gap-10">
             <Link href="/" className="text-2xl font-bold tracking-tight">
-              Read Log
+              <Image src={"/logo2.png"} width={60} height={60} alt="Read Log" className="rounded-lg"/>
             </Link>
 
             <nav className="hidden md:flex gap-8 text-sm font-medium">
