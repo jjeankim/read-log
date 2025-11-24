@@ -1,13 +1,14 @@
-export async function apiFetch(url: string, options: RequestInit = {}) {
-  const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}${url}}`, {
+import { useAuthStore } from "./store/auth";
+
+export async function apiClient(url: string, options: RequestInit = {}) {
+  const token = useAuthStore.getState().accessToken;
+
+  return fetch(`${process.env.NEXT_PUBLIC_API_URL}${url}`, {
     ...options,
     headers: {
-      "Content-Type": "application/json",
-      ...(options.headers || {}),
+      ...options.headers,
+      Authorization: token ? `Bearer ${token}` : "",
     },
+    credentials: "include", // Refresh Token 쿠키 포함
   });
-
-  const data = await res.json();
-  if(!res.ok) throw new Error(data.message || 'API Error');
-  return data
 }

@@ -17,35 +17,37 @@ import {
 } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useState, useTransition } from "react";
 import { loginAction } from "@/app/(auth)/login/actions";
-
+import { useAuthStore } from "@/lib/store/auth";
 
 export function LoginForm({
   className,
   ...props
 }: React.ComponentProps<"div">) {
   const router = useRouter();
+  const setAccessToken = useAuthStore((s) => s.setAccessToken);
+  const [isPending, startTransition] = useTransition();
   const [error, setError] = useState("");
 
   const handleForm = async (formData: FormData) => {
     setError("");
-
-    try {
-      const result = await loginAction(formData);
-      console.log(result);
-      router.push("/");
-    } catch (error: unknown) {
-      if (error instanceof Error) setError(error.message);
-      else setError("알 수 없는 오류가 발생했습니다.");
-    }
+    startTransition(async () => {
+      try {
+        const { accessToken } = await loginAction(formData);
+        setAccessToken(accessToken);
+        router.push("/");
+      } catch (error: unknown) {
+        if (error instanceof Error) setError(error.message);
+        else setError("알 수 없는 오류가 발생했습니다.");
+      }
+    });
   };
   return (
     <div className={cn("flex flex-col gap-6", className)} {...props}>
       <Card>
         <CardHeader className="flex justify-center mb-4">
           <CardTitle className="text-(--foreground-strong)">로그인</CardTitle>
-          
         </CardHeader>
         <CardContent>
           <form action={handleForm}>
@@ -69,12 +71,10 @@ export function LoginForm({
 
               {error && <p className="text-red-600">{error}</p>}
               <Field>
-                <Button type="submit" color="blue">
+                <Button disabled={isPending} type="submit" color="blue">
                   로그인
                 </Button>
-                {/* <Button variant="outline" type="button">
-                  Login with Google
-                </Button> */}
+                {error && <p>{error}</p>}
                 <FieldDescription className="text-center text-xs">
                   아직 회원이 아니신가요? <a href="/signup">회원가입</a>
                 </FieldDescription>

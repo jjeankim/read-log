@@ -15,7 +15,6 @@ export async function loginAction(formData: FormData) {
     throw new Error(data?.message ?? "로그인에 실패했습니다.");
   }
 
-  const result = await res.json();
-
-  return result;
+  const { accessToken } = await res.json();
+  return {accessToken}
 }
