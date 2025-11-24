@@ -9,7 +9,7 @@ import {
 } from "@/components/ui/carousel";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
-import Autoplay from "embla-carousel-autoplay";
+// import Autoplay from "embla-carousel-autoplay";
 
 const heroSlides = [
   {
@@ -38,7 +38,7 @@ const heroSlides = [
 const HeroSection = () => {
   return (
     <section className="w-full py-6 rel relative">
-      <div className="max-w-7xl mx-auto px-4 ">
+     
         <div className=" rounded-xl shadow">
           <Carousel
             className="w-full"
@@ -77,11 +77,11 @@ const HeroSection = () => {
             </CarouselContent>
 
             {/* Arrows */}
-            <CarouselPrevious className="left-3 opacity-50"/>
-            <CarouselNext className="right-3 opacity-50"/>
+            <CarouselPrevious className="-left-10 opacity-50"/>
+            <CarouselNext className="-right-10 opacity-50"/>
           </Carousel>
         </div>
-      </div>
+   
     </section>
   );
 };
