@@ -40,10 +40,7 @@ export function SignupForm({
     <div className={cn("flex flex-col gap-6", className)} {...props}>
       <Card>
         <CardHeader className="flex justify-center mb-4">
-          <CardTitle>회원가입</CardTitle>
-          {/* <CardDescription>
-            Enter your email below to login to your account
-          </CardDescription> */}
+          <CardTitle className="text-(--foreground-strong)">회원가입</CardTitle>
         </CardHeader>
         <CardContent>
           <form action={clientAction}>
@@ -67,12 +64,6 @@ export function SignupForm({
               <Field>
                 <div className="flex items-center">
                   <FieldLabel htmlFor="password">비밀번호</FieldLabel>
-                  {/* <a
-                    href="#"
-                    className="ml-auto inline-block text-sm underline-offset-4 hover:underline"
-                  >
-                    Forgot your password?
-                  </a> */}
                 </div>
                 <Input id="password" name="password" type="password" required />
               </Field>
@@ -85,7 +76,7 @@ export function SignupForm({
                 {/* <Button variant="outline" type="button">
                   Login with Google
                 </Button> */}
-                <FieldDescription className="text-center">
+                <FieldDescription className="text-center text-xs">
                   이미 회원이신가요? <a href="/login">로그인</a>
                 </FieldDescription>
               </Field>

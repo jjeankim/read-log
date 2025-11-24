@@ -82,8 +82,9 @@
   --radius: 0.625rem;
 
   /* Base */
-  --background: #ffffff;    
-  --foreground: oklch(0.2 0.03 50);      /* 깊은 갈색(텍스트) */
+  --background: #ffffff;
+  --foreground: #211209; /* 깊은 갈색(텍스트) */
+  --foreground-strong: #634e42; /* 새로 추가한 짙은 브라운 */
 
   /* Card */
   --card: var(--background);
@@ -94,11 +95,11 @@
   --popover-foreground: var(--foreground);
 
   /* Primary (메인 포인트 — 노랑) */
-  --primary: oklch(0.88 0.11 95);        /* 따뜻한 금빛 노랑 */
+  --primary: #eed780; /* 따뜻한 금빛 노랑 */
   --primary-foreground: oklch(0.2 0.04 60); /* 텍스트는 차분한 브라운 */
 
   /* Secondary (서브 포인트 — 브라운 계열) */
-  --secondary: oklch(0.75 0.05 75);      /* 연갈색 */
+  --secondary: oklch(0.75 0.05 75); /* 연갈색 */
   --secondary-foreground: oklch(0.22 0.02 30);
 
   /* Muted */
@@ -124,7 +125,6 @@
   --chart-4: oklch(0.8 0.15 75);
   --chart-5: oklch(0.75 0.12 50);
 }
-
 
 .dark {
   --background: oklch(0.145 0 0);

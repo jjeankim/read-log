@@ -1,4 +1,4 @@
-"use client"
+"use client";
 
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
@@ -21,35 +21,31 @@ import { useState } from "react";
 import { loginAction } from "@/app/(auth)/login/actions";
 
 
-
 export function LoginForm({
   className,
   ...props
 }: React.ComponentProps<"div">) {
+  const router = useRouter();
+  const [error, setError] = useState("");
 
-  const router = useRouter()
-  const [error, setError] = useState("")
-
-  const handleForm = async (formData:FormData) => {
-    setError("")
+  const handleForm = async (formData: FormData) => {
+    setError("");
 
     try {
-      const result = await loginAction(formData)
-      console.log(result)
-      router.push("/")
-    } catch (error:unknown) {
-      if( error instanceof Error) setError(error.message)
-      else setError("알 수 없는 오류가 발생했습니다.")
+      const result = await loginAction(formData);
+      console.log(result);
+      router.push("/");
+    } catch (error: unknown) {
+      if (error instanceof Error) setError(error.message);
+      else setError("알 수 없는 오류가 발생했습니다.");
     }
-  }
+  };
   return (
     <div className={cn("flex flex-col gap-6", className)} {...props}>
       <Card>
         <CardHeader className="flex justify-center mb-4">
-          <CardTitle>로그인</CardTitle>
-          {/* <CardDescription>
-            Enter your email below to login to your account
-          </CardDescription> */}
+          <CardTitle className="text-(--foreground-strong)">로그인</CardTitle>
+          
         </CardHeader>
         <CardContent>
           <form action={handleForm}>
@@ -79,7 +75,7 @@ export function LoginForm({
                 {/* <Button variant="outline" type="button">
                   Login with Google
                 </Button> */}
-                <FieldDescription className="text-center">
+                <FieldDescription className="text-center text-xs">
                   아직 회원이 아니신가요? <a href="/signup">회원가입</a>
                 </FieldDescription>
               </Field>
