@@ -18,9 +18,9 @@ const BookLogCard = ({id,thumbnail,title,author,likes,comments} :Props) => {
     >
       <div className="w-full h-40 relative mb-3 bg-gray-100 rounded overflow-hidden">
         {thumbnail ? (
-          <Image src={'/no-image.png'} alt={title} fill className="object-cover" />
+          <Image src={thumbnail} alt={title} fill className="object-cover"sizes="128px" />
         ) : (
-          <Image src="/no-image.png" alt="No Image" fill className="object-cover" />
+          <Image src="/no-image.png" alt="No Image" fill className="object-cover"sizes="128px" />
         )}
       </div>
 

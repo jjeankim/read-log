@@ -180,6 +180,7 @@ import BookSearchModal from "./BookSearchModal";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 import Image from "next/image";
+import { apiClient } from "@/lib/api";
 
 const WriteForm = () => {
   const [title, setTitle] = useState("");
@@ -217,14 +218,13 @@ const WriteForm = () => {
       content,
     };
 
-    const res = await fetch(`${process.env.API_URL}/logs`, {
+    const res = await apiClient(`/logs`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      credentials: "include",
       body: JSON.stringify(payload),
     });
 
-    if (!res.ok) router.push("/");
+    if (res.ok) router.push("/");
     else toast("등록 실패");
   };
 
@@ -242,6 +242,7 @@ const WriteForm = () => {
                   alt="thumbnail-preview"
                   fill
                   className="object-cover"
+                  sizes="(max-width: 768px) 192px, 224px"
                 />
               ) : (
                 <div className="flex items-center justify-center h-full text-gray-400 text-sm">

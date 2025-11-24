@@ -44,10 +44,19 @@ const Header = () => {
           </div>
 
           {/* 검색 */}
+          <div className="flex items-center gap-4">
+
           <SearchBar />
+          <Link
+            href="/logs/write"
+            className="px-4 py-2 text-sm font-medium rounded-md bg-primary text-white hover:bg-primary/80 transition"
+            >
+            + 기록하기
+          </Link>
+            </div>
         </div>
       </div>
-      {/* 카테고리 바 */}
+      {/* 카테고리 바
       <div className="border-t">
         <div className="max-w-7xl mx-auto flex overflow-x-auto gap-6 px-4 py-3 text-sm text-gray-700 whitespace-nowrap">
           <Link href={"/"} className="hover:text-primary">
@@ -77,8 +86,8 @@ const Header = () => {
           <Link href={"/"} className="hover:text-primary">
             경영 경제
           </Link>
-        </div>
-      </div>
+        </div> */}
+      {/* </div> */}
     </header>
   );
 };
