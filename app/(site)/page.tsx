@@ -1,11 +1,16 @@
 import HeroSection from "@/components/home/HeroSection";
 import BookLogListSection from "@/components/logs/BookLogListSection";
-import { fetchRecentLogs } from "@/lib/api/logs";
+import { fetchLogs } from "@/lib/api/logs";
+
 import { Plus } from "lucide-react";
 import Link from "next/link";
 
 const Page = async () => {
-  const logs = await fetchRecentLogs();
+  const [popularLogs, recentLogs, recommendLogs] = await Promise.all([
+    fetchLogs("popular"),
+    fetchLogs("recent"),
+    fetchLogs("recommend"),
+  ]);
 
   return (
     <div className="w-full">
@@ -15,17 +20,17 @@ const Page = async () => {
         <BookLogListSection
           title="인기 독서 기록"
           moreHref="/popular"
-          logs={logs}
+          logs={popularLogs}
         />
         <BookLogListSection
           title="최신 독서 기록"
           moreHref="/logs"
-          logs={logs}
+          logs={recentLogs}
         />
         <BookLogListSection
           title="추천 독서 기록"
           moreHref="/recommend"
-          logs={logs}
+          logs={recommendLogs}
         />
       </div>
       <div className="group">
