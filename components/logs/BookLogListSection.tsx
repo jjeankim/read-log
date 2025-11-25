@@ -14,7 +14,7 @@ interface BookLogData {
 
 interface Props {
   title: string;
-  moreHref: string;
+  moreHref?: string;
   logs: BookLogData[];
   limit?: number; // 4개 or n개 제한
 }
@@ -26,9 +26,11 @@ const BookLogListSection = ({ title, moreHref, logs, limit = 4 }: Props) => {
     <section className="mt-12">
       <div className="flex justify-between items-center mb-6">
         <h2 className="text-xl font-bold">{title}</h2>
-        <Link href={moreHref} className="text-sm hover:underline">
-          더 보기 &gt;
-        </Link>
+        {moreHref && (
+          <Link href={moreHref} className="text-sm hover:underline">
+            더 보기 &gt;
+          </Link>
+        )}
       </div>
 
       <div className="grid gap-6 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
