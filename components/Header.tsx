@@ -3,22 +3,38 @@
 import Link from "next/link";
 import SearchBar from "./SearchBar";
 import Image from "next/image";
+import { useAuthStore } from "@/lib/store/auth";
+import { useRouter } from "next/navigation";
 
 const Header = () => {
+  const router = useRouter();
+  const userId = useAuthStore(s => s.userId)
+  const logout = useAuthStore((s) => s.logout);
+  const handleClickLogout = () => {
+    logout();
+    router.push("/");
+  };
   return (
     <header className="w-full bg-white border-b">
       {/* 유틸리티 바 */}
       <div className="w-full border-b bg-gray-50 text-xs">
         <div className="max-w-7xl mx-auto flex items-center justify-end gap-4 text-gray-600 px-4 py-2">
-          <Link href={"/login"}>로그인</Link>
-          <span>/</span>
-          <Link href={"/signup"}>회원가입</Link>
-
-          <span>|</span>
-          <button>로그아웃</button>
-
-          <span>|</span>
-          <Link href={"/profile"}>마이페이지</Link>
+          {/* 로그인 여부에 따라 UI 분기 */}
+          {userId ? (
+            <>
+              <button onClick={handleClickLogout} className="cursor-pointer">
+                로그아웃
+              </button>
+              <span>|</span>
+              <Link href={"/profile"}>마이페이지</Link>
+            </>
+          ) : (
+            <>
+              <Link href={"/login"}>로그인</Link>
+              <span>/</span>
+              <Link href={"/signup"}>회원가입</Link>
+            </>
+          )}
         </div>
       </div>
 
@@ -28,7 +44,13 @@ const Header = () => {
           {/* 왼쪽 영역 */}
           <div className="flex items-center gap-10">
             <Link href="/" className="text-2xl font-bold tracking-tight">
-              <Image src={"/logo2.png"} width={60} height={60} alt="Read Log" className="rounded-lg"/>
+              <Image
+                src={"/logo2.png"}
+                width={60}
+                height={60}
+                alt="Read Log"
+                className="rounded-lg"
+              />
             </Link>
 
             <nav className="hidden md:flex gap-8 text-sm font-medium">
@@ -46,15 +68,14 @@ const Header = () => {
 
           {/* 검색 */}
           <div className="flex items-center gap-4">
-
-          <SearchBar />
-          <Link
-            href="/logs/write"
-            className="px-4 py-2 text-sm font-medium rounded-md bg-primary text-white hover:bg-primary/80 transition"
+            <SearchBar />
+            <Link
+              href="/logs/write"
+              className="px-4 py-2 text-sm font-medium rounded-md bg-primary text-white hover:bg-primary/80 transition"
             >
-            + 기록하기
-          </Link>
-            </div>
+              + 기록하기
+            </Link>
+          </div>
         </div>
       </div>
       {/* 카테고리 바
