@@ -5,6 +5,7 @@ import SearchBar from "./SearchBar";
 import Image from "next/image";
 import { useAuthStore } from "@/lib/store/auth";
 import { useRouter } from "next/navigation";
+import MypageMenu from "./MypageMenu";
 
 const Header = () => {
   const router = useRouter();
@@ -17,7 +18,7 @@ const Header = () => {
   return (
     <header className="w-full bg-white border-b">
       {/* 유틸리티 바 */}
-      <div className="w-full border-b bg-gray-50 text-xs">
+      <div className="w-full border-b bg-gray-50 text-sm">
         <div className="max-w-7xl mx-auto flex items-center justify-end gap-4 text-gray-600 px-4 py-2">
           {/* 로그인 여부에 따라 UI 분기 */}
           {userId ? (
@@ -26,7 +27,7 @@ const Header = () => {
                 로그아웃
               </button>
               <span>|</span>
-              <Link href={"/profile"}>마이페이지</Link>
+              <MypageMenu />
             </>
           ) : (
             <>
