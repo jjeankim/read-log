@@ -16,5 +16,5 @@ export async function loginAction(formData: FormData) {
   }
 
   const { accessToken } = await res.json();
-  return {accessToken}
+  return { accessToken };
 }

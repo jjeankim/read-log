@@ -16,3 +16,4 @@ export const fetchSearchLogs = async (keyword: string) => {
 
   return res.json();
 };
+

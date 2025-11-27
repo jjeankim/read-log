@@ -1,9 +1,8 @@
 "use client";
-import { apiClient } from "@/lib/api";
-import { Heart } from "lucide-react";
+
 import Image from "next/image";
 import Link from "next/link";
-import { useState } from "react";
+import LikeButton from "./LikeButton";
 
 interface Props {
   id: number;
@@ -22,15 +21,6 @@ const BookLogCard = ({
   likes,
   comments,
 }: Props) => {
-  const [likeCount, setLikeCount] = useState(likes);
-
-  const handleClickLike = async (e: React.MouseEvent) => {
-    e.preventDefault();
-    e.stopPropagation();
-
-    const res = await apiClient(`/likes/${id}`, { method: "POST" });
-    if (res.ok) setLikeCount((prev) => prev + 1);
-  };
   return (
     <Link
       href={`/logs/${id}`}
@@ -59,11 +49,8 @@ const BookLogCard = ({
       <h3 className="font-semibold text-base line-clamp-1">{title}</h3>
       <p className="text-sm text-gray-600 mt-1">{author}</p>
 
-      <div className="flex justify-between mt-3 text-xs text-gray-500">
-        <button onClick={handleClickLike} className="cursor-pointer flex items-center gap-1">
-          <Heart size={14} className={likeCount > 0 ? "text-red-500 fill-red-500" : "text-gray-500"}></Heart>
-          {likeCount}
-        </button>
+      <div className="flex justify-between">
+        <LikeButton logId={id} initialLikes={likes} />
 
         <button
           onClick={(e) => {

@@ -27,6 +27,7 @@ export function LoginForm({
 }: React.ComponentProps<"div">) {
   const router = useRouter();
   const setAccessToken = useAuthStore((s) => s.setAccessToken);
+
   const [isPending, startTransition] = useTransition();
   const [error, setError] = useState("");
 
@@ -36,6 +37,7 @@ export function LoginForm({
       try {
         const { accessToken } = await loginAction(formData);
         setAccessToken(accessToken);
+
         router.push("/");
       } catch (error: unknown) {
         if (error instanceof Error) setError(error.message);
