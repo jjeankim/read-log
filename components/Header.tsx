@@ -5,11 +5,11 @@ import SearchBar from "./SearchBar";
 import Image from "next/image";
 import { useAuthStore } from "@/lib/store/auth";
 import { useRouter } from "next/navigation";
-import MypageMenu from "./MypageMenu";
+import MypageMenu from "./my/MypageMenu";
 
 const Header = () => {
   const router = useRouter();
-  const userId = useAuthStore(s => s.userId)
+  const userId = useAuthStore((s) => s.userId);
   const logout = useAuthStore((s) => s.logout);
   const handleClickLogout = () => {
     logout();

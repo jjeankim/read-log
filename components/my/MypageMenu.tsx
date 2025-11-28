@@ -1,5 +1,12 @@
 import { useAuthStore } from "@/lib/store/auth";
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from "./ui/dropdown-menu";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "../ui/dropdown-menu";
 import Link from "next/link";
 
 const MypageMenu = () => {
@@ -29,10 +36,7 @@ const MypageMenu = () => {
 
         <DropdownMenuSeparator />
 
-        <DropdownMenuItem
-          className="text-red-500"
-          onClick={() => logout()}
-        >
+        <DropdownMenuItem className="text-red-500" onClick={() => logout()}>
           로그아웃
         </DropdownMenuItem>
       </DropdownMenuContent>
