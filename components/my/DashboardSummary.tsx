@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { Card, CardContent } from "../ui/card";
 
 interface DashboardSummaryProps {
@@ -13,11 +14,11 @@ const DashboardSummary = ({
 }: DashboardSummaryProps) => {
   return (
     <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-      <Card>
-        <CardContent className="p-4">
+      <Card >
+        <Link href={"/logs/me"} className="p-4 block bg-white rounded-md">
           <p className="text-sm text-gray-500">총 기록 수</p>
           <p className="text-2xl font-semibold mt-1">{totalLogs}</p>
-        </CardContent>
+        </Link>
       </Card>
 
       <Card>

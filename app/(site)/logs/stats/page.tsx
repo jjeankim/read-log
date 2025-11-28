@@ -76,15 +76,16 @@ const Page = () => {
           avgRating={summary.avgRating}
         />
       )}
+      {/* 히트맵 */}
+      <YearlyHeatmap data={heatmap} />
 
-      {/* 2) 월별 기록 수 */}
+      {/* 월별 기록 수 */}
       <MonthloyLogChart data={monthlyStats} />
 
-      {/* 3) 요일별 패턴 */}
+      {/* 요일별 패턴 */}
       <WeeklyPatternChart data={weeklyStats} />
 
-      {/* 4) 히트맵 */}
-      <YearlyHeatmap data={heatmap} />
+
     </div>
   );
 };
