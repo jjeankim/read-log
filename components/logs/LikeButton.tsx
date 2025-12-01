@@ -2,7 +2,6 @@
 
 import { Heart } from "lucide-react";
 import { useState } from "react";
-import { apiClient } from "@/lib/api";
 
 interface Props {
   logId: number;
@@ -14,10 +13,10 @@ const LikeButton = ({ logId, initialLikes }: Props) => {
   const [count, setCount] = useState<number>(initialLikes);
 
   const handleLike = async (e: React.MouseEvent) => {
-    console.log("clicked")
+    console.log("clicked");
     e.preventDefault();
     e.stopPropagation();
-    const res = await apiClient(`/likes/${logId}`, { method: "POST" });
+    const res = await fetch(`/api/likes/${logId}`, { method: "POST" });
 
     if (!res.ok) return;
 
@@ -30,7 +29,6 @@ const LikeButton = ({ logId, initialLikes }: Props) => {
       setCount((prev) => Math.max(prev - 1, 0));
     }
   };
-  
 
   return (
     <button
