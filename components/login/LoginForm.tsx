@@ -2,13 +2,7 @@
 
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
-import {
-  Card,
-  CardContent,
-  // CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import {
   Field,
   FieldDescription,
@@ -18,7 +12,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { useRouter } from "next/navigation";
 import { useState, useTransition } from "react";
-import { loginAction } from "@/app/(auth)/login/actions";
+
 import { useAuthStore } from "@/lib/store/auth";
 
 export function LoginForm({
@@ -26,25 +20,41 @@ export function LoginForm({
   ...props
 }: React.ComponentProps<"div">) {
   const router = useRouter();
-  const setAccessToken = useAuthStore((s) => s.setAccessToken);
+  const setLoggedIn = useAuthStore((state) => state.setLoggedIn);
 
-  const [isPending, startTransition] = useTransition();
   const [error, setError] = useState("");
+  const [isPending, startTransition] = useTransition();
 
   const handleForm = async (formData: FormData) => {
     setError("");
-    startTransition(async () => {
-      try {
-        const { accessToken } = await loginAction(formData);
-        setAccessToken(accessToken);
 
+    startTransition(async () => {
+      const response = await fetch("/api/auth/login", {
+        method: "POST",
+        body: JSON.stringify({
+          email: formData.get("email"),
+          password: formData.get("password"),
+        }),
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+
+      if (!response.ok) {
+        const data = await response.json().catch(() => null);
+        setError(data?.message ?? "로그인 실패");
+        return;
+      }
+
+      const data = await response.json();
+
+      if (data.success) {
+        setLoggedIn(true);
         router.push("/");
-      } catch (error: unknown) {
-        if (error instanceof Error) setError(error.message);
-        else setError("알 수 없는 오류가 발생했습니다.");
       }
     });
   };
+
   return (
     <div className={cn("flex flex-col gap-6", className)} {...props}>
       <Card>
