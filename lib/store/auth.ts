@@ -9,6 +9,7 @@ interface TokenPayload {
 interface AuthState {
   userId: number | null;
   accessToken: string | null;
+  isLoggedIn: boolean;
   setAccessToken: (token: string | null) => void;
   logout: () => void;
 }
@@ -18,6 +19,7 @@ export const useAuthStore = create<AuthState>()(
     (set) => ({
       userId: null,
       accessToken: null,
+      isLoggedIn:false,
 
       setAccessToken: (token) => {
         if (token) {
@@ -25,13 +27,14 @@ export const useAuthStore = create<AuthState>()(
           set({
             accessToken: token,
             userId: decoded.id,
+            isLoggedIn: true,
           });
         } else {
           set({ accessToken: null, userId: null });
         }
       },
 
-      logout: () => set({ accessToken: null, userId: null }),
+      logout: () => set({ accessToken: null, userId: null,isLoggedIn:false }),
     }),
     { name: "auth-store" }
   )

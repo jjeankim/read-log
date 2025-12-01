@@ -1,9 +1,8 @@
+import FABButton from "@/components/home/FABButton";
 import HeroSection from "@/components/home/HeroSection";
 import BookLogListSection from "@/components/logs/BookLogListSection";
 import { fetchLogs } from "@/lib/api/logs";
 
-import { Plus } from "lucide-react";
-import Link from "next/link";
 
 const Page = async () => {
   const [popularLogs, recentLogs, recommendLogs] = await Promise.all([
@@ -33,7 +32,7 @@ const Page = async () => {
           logs={recommendLogs}
         />
       </div>
-      <div className="group">
+      {/* <div className="group">
         <Link
           href="/logs/write"
           className="fixed bottom-6 right-6 bg-primary text-white w-14 h-14 
@@ -45,7 +44,8 @@ const Page = async () => {
         <span className="absolute bottom-22 right-6 bg-(--foreground-strong) text-white text-xs px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition">
           기록 작성
         </span>
-      </div>
+      </div> */}
+      <FABButton/>
     </div>
   );
 };
