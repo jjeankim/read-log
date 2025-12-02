@@ -1,11 +1,14 @@
-export const serverFetch = async (url: string, options: RequestInit = {}) => {
-  const base = process.env.API_URL; // 서버용 환경변수
+import { cookies } from "next/headers";
 
-  const res = await fetch(`${base}${url}`, {
+export const serverFetch = async (path: string, options: RequestInit = {}) => {
+  const cookieStore = await cookies();
+  const token = cookieStore.get("accessToken")?.value;
+
+  return fetch(`${process.env.API_URL}${path}`, {
     ...options,
-    credentials: "include",
-    cache: "no-store",
+    headers: {
+      ...(token && { Authorization: `Bearer ${token}` }),
+      ...(options.headers || {}),
+    },
   });
-
-  return res;
 };
