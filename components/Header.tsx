@@ -12,18 +12,22 @@ const Header = () => {
   const isLoggedIn = useAuthStore((state) => state.isLoggedIn);
   const logout = useAuthStore((state) => state.logout);
 
-  const handleClickLogout = () => {
+  const handleClickLogout = async () => {
+    await fetch("/api/auth/logout", {
+      method: "POST",
+    });
+
     logout();
     router.push("/");
   };
 
   const handleClickWrite = () => {
-    if(isLoggedIn) {
-      router.push("/logs/wirte")
-    }else {
-      router.push("/login")
+    if (isLoggedIn) {
+      router.push("/logs/wirte");
+    } else {
+      router.push("/login");
     }
-  }
+  };
   return (
     <header className="w-full bg-white border-b">
       {/* 유틸리티 바 */}
@@ -88,7 +92,6 @@ const Header = () => {
           </div>
         </div>
       </div>
-      
     </header>
   );
 };
